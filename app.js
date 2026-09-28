@@ -80,7 +80,7 @@ function processText() {
         pages.push(allLines.slice(i, i + numLines));
     }
 
-    currentPageIdx = 0;
+    currentPageIdx = Math.min(currentPageIdx, Math.max(pages.length - 1, 0));
     updatePreview();
 }
 
