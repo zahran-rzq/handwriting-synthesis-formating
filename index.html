@@ -166,6 +166,10 @@
             <label>Max Chars / Line:</label>
             <input type="number" id="cfgMaxChars" value="72">
         </div>
+        <div class="config-item">
+            <label for="downloadFileName">File Name:</label>
+            <input type="text" id="downloadFileName" value="hasil_sintesis" placeholder="contoh: dasar_teori">
+        </div>
         <button class="btn" onclick="processText()">Generate Preview</button>
     </div>
 
@@ -349,6 +353,12 @@ Format:
         }
 
         // --- Download ---
+        function getDownloadBaseName() {
+            const input = document.getElementById("downloadFileName");
+            const baseName = input.value.trim().replace(/[\\/:*?"<>|]/g, "_");
+            return baseName || "hasil_sintesis";
+        }
+
         function downloadFile(filename, text) {
             if (!text) return;
             const blob = new Blob([text], { type: 'text/plain' });
@@ -365,13 +375,13 @@ Format:
         function downloadOriginal() {
             const text = document.getElementById("inputText").value;
             if (!text) { alert("Teks input kosong!"); return; }
-            downloadFile("input_asli.txt", text);
+            downloadFile(`${getDownloadBaseName()}_original.txt`, text);
         }
 
         function downloadCurrentPage() {
             if (pages.length === 0) { alert("Tidak ada teks yang di-generate!"); return; }
             const text = pages[currentPageIdx].join('\n');
-            downloadFile(`halaman_${currentPageIdx + 1}.txt`, text);
+            downloadFile(`${getDownloadBaseName()}_${currentPageIdx + 1}.txt`, text);
         }
 
         // Mengunduh banyak file sekaligus (Individual files)
@@ -390,7 +400,7 @@ Format:
             pages.forEach((pageLines, index) => {
                 setTimeout(() => {
                     const text = pageLines.join('\n');
-                    downloadFile(`halaman_${index + 1}.txt`, text);
+                    downloadFile(`${getDownloadBaseName()}_${index + 1}.txt`, text);
                 }, index * 300);
             });
         }
