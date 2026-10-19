@@ -12,6 +12,24 @@ const FONT_WIDTH = 14.4;
 let pages = [];
 let currentPageIdx = 0;
 let exportDirectoryHandle = null;
+const presets = {
+    dstl: { numLines: 32 },
+    dsk: { numLines: 21 }
+};
+
+function applyPreset() {
+    const presetName = document.getElementById("cfgPreset").value;
+    const preset = presets[presetName];
+    if (!preset) return;
+
+    document.getElementById("cfgNumLines").value = preset.numLines;
+    processText();
+}
+
+function setCustomPreset() {
+    document.getElementById("cfgPreset").value = "custom";
+    processText();
+}
 
 function approximateWordLength(word) {
     let total = 0;

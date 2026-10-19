@@ -11,12 +11,20 @@
 
     <div class="config-panel">
         <div class="config-item">
+            <label for="cfgPreset">Preset:</label>
+            <select id="cfgPreset" onchange="applyPreset()">
+                <option value="dstl">DSTL (32 baris)</option>
+                <option value="dsk">DSK (21 baris)</option>
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+        <div class="config-item">
             <label for="cfgBoxWidth">Box Width (px):</label>
             <input type="number" id="cfgBoxWidth" value="503">
         </div>
         <div class="config-item">
             <label for="cfgNumLines">Lines per Page:</label>
-            <input type="number" id="cfgNumLines" value="32">
+            <input type="number" id="cfgNumLines" value="32" onchange="setCustomPreset()">
         </div>
         <div class="config-item">
             <label for="cfgMaxChars">Max Chars / Line:</label>

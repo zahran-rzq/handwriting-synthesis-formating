@@ -47,7 +47,8 @@ h1 {
     gap: 10px;
 }
 
-.config-item input {
+.config-item input,
+.config-item select {
     width: 80px;
     padding: 5px;
     border: 1px solid var(--border-color);
