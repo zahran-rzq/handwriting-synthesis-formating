@@ -113,6 +113,7 @@ function updatePreview() {
         pageIndicator.textContent = "Page 0 of 0";
         btnPrev.disabled = true;
         btnNext.disabled = true;
+        renderJustifiedPreview([]);
         return;
     }
 
@@ -120,6 +121,64 @@ function updatePreview() {
     outputText.value = pages[currentPageIdx].join('\n');
     btnPrev.disabled = currentPageIdx === 0;
     btnNext.disabled = currentPageIdx === pages.length - 1;
+    renderJustifiedPreview(pages[currentPageIdx]);
+}
+
+function renderJustifiedPreview(pageLines) {
+    const preview = document.getElementById("justifiedPreview");
+    const boxWidth = parseInt(document.getElementById("cfgBoxWidth").value) || 503;
+
+    preview.replaceChildren();
+    preview.style.setProperty("--preview-box-width", `${boxWidth}px`);
+
+    pageLines.forEach((line, lineIndex) => {
+        const lineElement = document.createElement("div");
+        lineElement.className = "justified-line";
+        lineElement.style.width = `${boxWidth + 52}px`;
+
+        const lineNumber = document.createElement("span");
+        lineNumber.className = "justified-line-number";
+        lineNumber.textContent = `${currentPageIdx + 1}.${lineIndex + 1}`;
+        lineElement.appendChild(lineNumber);
+
+        const lineContent = document.createElement("div");
+        lineContent.className = "justified-line-content";
+        lineContent.style.width = `${boxWidth}px`;
+
+        if (!line) {
+            lineElement.classList.add("justified-empty-line");
+            lineElement.appendChild(lineContent);
+            preview.appendChild(lineElement);
+            return;
+        }
+
+        const baseWidths = [...line].map(char => {
+            const widthMultiplier = charWidths[char] !== undefined ? charWidths[char] : 1.0;
+            return widthMultiplier * FONT_WIDTH;
+        });
+        const spaceIndexes = [...line]
+            .map((char, index) => char === " " ? index : -1)
+            .filter(index => index !== -1);
+        const baseWidth = baseWidths.reduce((total, width) => total + width, 0);
+        const shouldJustify = lineIndex < pageLines.length - 1
+            && pageLines[lineIndex + 1] !== ""
+            && spaceIndexes.length > 0
+            && baseWidth < boxWidth;
+        const extraSpace = shouldJustify
+            ? (boxWidth - baseWidth) / spaceIndexes.length
+            : 0;
+
+        [...line].forEach((char, charIndex) => {
+            const charElement = document.createElement("span");
+            charElement.className = `justified-char${char === " " ? " space" : ""}`;
+            charElement.textContent = char === " " ? "\u00a0" : char;
+            charElement.style.width = `${baseWidths[charIndex] + (char === " " ? extraSpace : 0)}px`;
+            lineContent.appendChild(charElement);
+        });
+
+        lineElement.appendChild(lineContent);
+        preview.appendChild(lineElement);
+    });
 }
 
 function prevPage() {

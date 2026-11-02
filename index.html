@@ -37,6 +37,14 @@
         <button class="btn" onclick="processText()">Generate Preview</button>
     </div>
 
+    <div class="actions">
+        <button class="btn btn-success" onclick="downloadOriginal()">📥 Download Original Input</button>
+        <button class="btn btn-success" onclick="downloadCurrentPage()">📄 Download Current Page</button>
+        <button class="btn btn-success" onclick="downloadAllPagesIndividual()">📑 Download All Pages (Individual TXT)</button>
+        <button class="btn btn-success" onclick="exportPagesToFolder()">📁 Export Pages to Folder</button>
+        <span id="exportFolderStatus">Folder tujuan: belum dipilih</span>
+    </div>
+
     <div class="main-container">
         <div class="panel">
             <h2>Input Text</h2>
@@ -59,12 +67,12 @@ Format:
         </div>
     </div>
 
-    <div class="actions">
-        <button class="btn btn-success" onclick="downloadOriginal()">📥 Download Original Input</button>
-        <button class="btn btn-success" onclick="downloadCurrentPage()">📄 Download Current Page</button>
-        <button class="btn btn-success" onclick="downloadAllPagesIndividual()">📑 Download All Pages (Individual TXT)</button>
-        <button class="btn btn-success" onclick="exportPagesToFolder()">📁 Export Pages to Folder</button>
-        <span id="exportFolderStatus">Folder tujuan: belum dipilih</span>
+    <div class="panel final-preview-panel">
+        <h2>Perkiraan Hasil Akhir (Justify Berdasarkan Char Width)</h2>
+        <p class="preview-help">
+            Visualisasi ini memperkirakan posisi setiap huruf setelah baris diratakan ke kiri dan kanan.
+        </p>
+        <div id="justifiedPreview" class="justified-preview" aria-live="polite"></div>
     </div>
 
     <script src="app.js"></script>

@@ -18,8 +18,9 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 h1 {
@@ -58,12 +59,14 @@ h1 {
 .main-container {
     display: flex;
     gap: 20px;
-    flex: 1;
-    min-height: 0;
+    flex: 0 0 520px;
+    min-height: 520px;
 }
 
 .panel {
     flex: 1;
+    min-width: 0;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     background: #fff;
@@ -98,6 +101,71 @@ textarea:focus {
 
 .preview-area {
     background-color: #f8f9fa;
+}
+
+.final-preview-panel {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    margin-top: 20px;
+}
+
+.preview-help {
+    color: #666;
+    font-size: 13px;
+    margin: -2px 0 12px;
+}
+
+.justified-preview {
+    background: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    min-height: 150px;
+    overflow: visible;
+    padding: 14px;
+}
+
+.justified-line {
+    align-items: flex-end;
+    display: flex;
+    height: 24px;
+    margin: 0 auto;
+    max-width: 100%;
+    white-space: pre;
+}
+
+.justified-line-number {
+    color: #777;
+    flex: 0 0 42px;
+    font-family: var(--mono-font);
+    font-size: 13px;
+    line-height: 24px;
+    padding-right: 10px;
+    text-align: right;
+    user-select: none;
+}
+
+.justified-line-content {
+    display: flex;
+    flex: 0 0 auto;
+    min-width: 0;
+}
+
+.justified-char {
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-family: var(--mono-font);
+    font-size: 16px;
+    height: 24px;
+    justify-content: center;
+    line-height: 24px;
+}
+
+.justified-char.space {
+    color: transparent;
+}
+
+.justified-empty-line {
+    height: 24px;
 }
 
 .pagination-controls {
@@ -137,7 +205,28 @@ textarea:focus {
 
 .actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-top: 20px;
+    margin: 0 0 20px;
+}
+
+@media (max-width: 760px) {
+    body {
+        padding: 12px;
+    }
+
+    .main-container {
+        flex-direction: column;
+        flex-basis: auto;
+        min-height: 0;
+    }
+
+    .main-container .panel {
+        flex: 0 0 360px;
+    }
+
+    .final-preview-panel {
+        flex-basis: auto;
+    }
 }
